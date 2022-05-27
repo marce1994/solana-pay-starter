@@ -4,6 +4,8 @@ export default async function handler(req, res) {
         const response = await fetch(`${process.env.CRUDCRUD_URL}/products`);
         const products = await response.json();
 
+        console.log(response, products);
+
         // Create a copy of products without the hashes and filenames
         const productsNoHashes = products.map((product) => {
 
