@@ -1,6 +1,6 @@
 .App {
   height: 100vh;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(50, 0, 187);
   text-align: center;
   overflow: hidden;
 }
@@ -11,7 +11,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 0 30px 0 30px;
-  color: white;
+  color: rgb(0, 225, 255);
   position: relative;
 }
 
@@ -103,7 +103,7 @@ button:disabled {
 .footer-text {
   font-size: 16px;
   font-weight: bold;
-  color: white;
+  color: rgb(0, 225, 255);
 }
 
 .connected-container input[type='text'] {
