@@ -2,11 +2,8 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl, Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress, getMint } from "@solana/spl-token";
 import BigNumber from "bignumber.js";
-import products from "./products.json";
 
 const usdcAddress = new PublicKey("Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr");
-const sellerAddress = "9yTwcJo6SN2X3H43iFZBBeQq1AfycqKqct61aDLq4KiL";
-const sellerPublicKey = new PublicKey(sellerAddress);
 
 const createTransaction = async (req, res) => {
     try {
@@ -23,9 +20,11 @@ const createTransaction = async (req, res) => {
             });
         }
 
+        // fetch products from crudcrud
+        const response = await fetch(`${process.env.CRUDCRUD_URL}/products`);
+        const products = await response.json();
+
         const { price: itemPrice, seller: itemSeller } = products.find((product) => product.id === itemID);
-        console.log("itemPrice is ", itemPrice);
-        console.log("itemSeller is ", itemSeller);
 
         if (!itemPrice) {
             res.status(404).json({
@@ -41,7 +40,6 @@ const createTransaction = async (req, res) => {
         const connection = new Connection(endpoint);
 
         const buyerUsdcAddress = await getAssociatedTokenAddress(usdcAddress, buyerPublicKey);
-        // const shopUsdcAddress = await getAssociatedTokenAddress(usdcAddress, sellerPublicKey);
         const sellerUsdcAddress = await getAssociatedTokenAddress(usdcAddress, new PublicKey(itemSeller));
         
         const { blockhash } = await connection.getLatestBlockhash("finalized");
